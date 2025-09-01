@@ -7,38 +7,124 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
     <style>
         :root {
-            /* Colores inspirados en tu nuevo logo LAEZ */
-            --primary-color: #F97316; /* Orange 500 */
-            --primary-hover: #EA580C; /* Orange 600 */
-            --secondary-color: #4B5563; /* Gray 600 */
+            /* Tema Claro (Actual con mejoras) */
+            --primary-color: #F97316;
+            --primary-hover: #EA580C;
+            --background-light: #f3f4f6;
+            --card-light: #ffffff;
+            --text-light: #1f2937;
+            
+            /* Tema Oscuro */
+            --background-dark: #111827; /* Gray 900 */
+            --card-dark: #1f2937;      /* Gray 800 */
+            --text-dark: #f9fafb;      /* Gray 50 */
+            --border-dark: #374151;    /* Gray 700 */
+
+            /* Gradiente Futurista */
+            --primary-gradient: linear-gradient(90deg, #F97316, #d946ef); /* Naranja a Fucsia */
+            --primary-gradient-hover: linear-gradient(90deg, #EA580C, #c026d3);
         }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
+            background-color: var(--background-light);
+            color: var(--text-light);
         }
-        .kanban-column {
-            scroll-snap-align: start;
+
+        /* Estilos para el Modo Oscuro */
+        body.dark {
+            background-color: var(--background-dark);
+            color: var(--text-dark);
         }
-        .main-container {
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
+        .dark .bg-white { background-color: var(--card-dark); }
+        .dark .bg-gray-50 { background-color: #182133; } /* Un poco más claro que el fondo */
+        .dark .bg-gray-100 { background-color: var(--card-dark); }
+        .dark .bg-gray-200 { background-color: #374151; }
+        .dark .hover\:bg-gray-300:hover { background-color: #4b5563; }
+        .dark .text-gray-800 { color: var(--text-dark); }
+        .dark .text-gray-700 { color: #d1d5db; } /* Gray 300 */
+        .dark .text-gray-500 { color: #9ca3af; } /* Gray 400 */
+        .dark .shadow-md, .dark .shadow-lg { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4); }
+        .dark .border, .dark .border-b, .dark .border-t { border-color: var(--border-dark); }
+        .dark input, .dark select, .dark textarea {
+            background-color: #374151;
+            border-color: #4b5563;
+            color: var(--text-dark);
         }
-        dialog::backdrop {
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(2px);
+        .dark dialog::backdrop {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
         }
-        .btn-primary {
-            background-color: var(--primary-color);
+
+        /* Botón con Gradiente */
+        .btn-primary-gradient {
+            background: var(--primary-gradient);
             color: white;
             font-weight: bold;
             padding: 0.75rem 1.5rem;
             border-radius: 0.5rem;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            border: none;
+            background-size: 200% auto;
         }
-        .btn-primary:hover {
-            background-color: var(--primary-hover);
+        .btn-primary-gradient:hover {
+            background-position: right center;
+            transform: scale(1.02);
+        }
+
+        /* Animación para tarjetas */
+        .order-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .order-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+        }
+        .dark .order-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3), 0 4px 6px -4px rgba(0,0,0,0.3);
+        }
+
+        /* Animación de entrada para los modales */
+        dialog[open] {
+            animation: fadeIn 0.3s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Estilos Notificaciones Toast */
+        #toast-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .toast {
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            opacity: 0;
+            transform: translateX(100%);
+            animation: slideIn 0.5s forwards;
+        }
+        .toast.success { background-color: #22c55e; }
+        .toast.error { background-color: #ef4444; }
+        @keyframes slideIn {
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(100%); }
         }
     </style>
 </head>
@@ -51,14 +137,13 @@
         <div id="login-view" class="flex items-center justify-center h-full bg-gray-100">
             <div class="w-full max-w-sm p-8 space-y-6 bg-white rounded-xl shadow-lg text-center">
                 <div>
-                    <!-- NUEVO LOGO -->
-                    <img src="https://i.ibb.co/rG2kW6T2/Picsart-25-08-09-20-48-17-721.jpg" alt="Logo LAEZ" class="w-40 h-40 mx-auto">
-                    <h1 class="text-3xl font-bold text-gray-800 mt-2">LAEZ Pedidos</h1>
+                    <img src="https://i.ibb.co/rG2kW6T2/Picsart-25-08-09-20-48-17-721.jpg" alt="Logo LAEZ" class="w-40 h-40 mx-auto rounded-full shadow-lg">
+                    <h1 class="text-3xl font-bold text-gray-800 mt-4">LAEZ Pedidos</h1>
                     <p class="text-gray-500">Tu centro de operaciones creativas</p>
                 </div>
                 <div class="space-y-4">
                     <h2 class="text-lg font-medium">Selecciona tu rol para continuar</h2>
-                    <button id="login-tienda" class="w-full btn-primary flex items-center justify-center gap-2">
+                    <button id="login-tienda" class="w-full btn-primary-gradient flex items-center justify-center gap-2">
                         <i class="fas fa-store"></i>
                         Entrar como Tienda
                     </button>
@@ -76,18 +161,21 @@
             <!-- Header -->
             <header class="bg-white shadow-md p-4 flex justify-between items-center z-10">
                 <div class="flex items-center gap-3">
-                     <img src="https://i.ibb.co/rG2kW6T2/Picsart-25-08-09-20-48-17-721.jpg" alt="Logo LAEZ" class="w-10 h-10">
+                     <img src="https://i.ibb.co/rG2kW6T2/Picsart-25-08-09-20-48-17-721.jpg" alt="Logo LAEZ" class="w-10 h-10 rounded-full">
                     <div>
                         <h1 class="text-xl font-bold text-gray-800">LAEZ Pedidos</h1>
                         <p id="user-role-display" class="text-sm text-gray-500"></p>
                     </div>
                 </div>
-                <div>
-                    <button id="new-order-btn" class="hidden btn-primary flex items-center gap-2 !py-2 !px-4">
+                <div class="flex items-center gap-2">
+                    <button id="theme-toggle-btn" class="bg-gray-200 text-gray-700 font-bold py-2 px-3 rounded-lg hover:bg-gray-300 transition duration-300">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button id="new-order-btn" class="hidden btn-primary-gradient flex items-center gap-2 !py-2 !px-4">
                         <i class="fas fa-plus"></i>
                         <span class="hidden sm:inline">Nuevo Pedido</span>
                     </button>
-                     <button id="logout-btn" class="bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 transition duration-300 ml-2 flex items-center gap-2">
+                     <button id="logout-btn" class="bg-gray-200 text-gray-700 font-bold py-2 px-3 rounded-lg hover:bg-gray-300 transition duration-300">
                         <i class="fas fa-sign-out-alt"></i>
                     </button>
                 </div>
@@ -97,6 +185,11 @@
             <main class="flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50">
                 <!-- Vista Tienda -->
                 <div id="tienda-view-content" class="hidden">
+                    <!-- Dashboard de Resumen -->
+                    <div id="dashboard" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <!-- Se llenará con JS -->
+                    </div>
+                    
                     <div class="flex flex-wrap gap-4 mb-4 items-center">
                         <h2 class="text-2xl font-bold text-gray-700">Panel de Pedidos</h2>
                         <div class="relative flex-grow max-w-xs">
@@ -130,9 +223,12 @@
         </div>
     </div>
 
+    <!-- Contenedor para notificaciones Toast -->
+    <div id="toast-container"></div>
+
     <!-- Modal para Nuevo/Editar Pedido -->
-    <dialog id="order-modal" class="p-0 rounded-xl shadow-2xl w-full max-w-3xl backdrop:bg-black/50">
-        <form id="order-form" class="p-6 sm:p-8 space-y-4">
+    <dialog id="order-modal" class="p-0 rounded-xl shadow-2xl w-full max-w-3xl">
+        <form id="order-form" class="p-6 sm:p-8 space-y-4 bg-white">
             <div class="flex justify-between items-center pb-3 border-b">
                 <h3 id="modal-title" class="text-2xl font-bold">Nuevo Pedido</h3>
                 <button type="button" onclick="document.getElementById('order-modal').close()" class="text-gray-400 hover:text-gray-600">
@@ -194,13 +290,13 @@
 
             <div class="flex justify-end gap-4 pt-4 border-t">
                 <button type="button" onclick="document.getElementById('order-modal').close()" class="bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
-                <button type="submit" class="btn-primary">Guardar Pedido</button>
+                <button type="submit" class="btn-primary-gradient">Guardar Pedido</button>
             </div>
         </form>
     </dialog>
     
     <!-- Modales de Clientes y Productos (sin cambios mayores) -->
-    <dialog id="clients-modal" class="p-6 rounded-xl shadow-2xl w-full max-w-lg">
+    <dialog id="clients-modal" class="p-6 rounded-xl shadow-2xl w-full max-w-lg bg-white">
         <div class="flex justify-between items-center mb-4">
              <h3 class="text-xl font-bold">Gestionar Clientes</h3>
              <button onclick="document.getElementById('clients-modal').close()" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times fa-lg"></i></button>
@@ -212,7 +308,7 @@
         </form>
         <div id="clients-list" class="max-h-64 overflow-y-auto space-y-2"></div>
     </dialog>
-    <dialog id="products-modal" class="p-6 rounded-xl shadow-2xl w-full max-w-lg">
+    <dialog id="products-modal" class="p-6 rounded-xl shadow-2xl w-full max-w-lg bg-white">
         <div class="flex justify-between items-center mb-4">
              <h3 class="text-xl font-bold">Gestionar Productos</h3>
              <button onclick="document.getElementById('products-modal').close()" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times fa-lg"></i></button>
@@ -246,18 +342,19 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // --- ELEMENTOS DEL DOM (CORRECCIÓN) ---
+        // --- ELEMENTOS DEL DOM ---
         const loginView = document.getElementById('login-view');
         const mainView = document.getElementById('main-view');
         const orderModal = document.getElementById('order-modal');
         const orderForm = document.getElementById('order-form');
+        const themeToggleButton = document.getElementById('theme-toggle-btn');
 
         // --- ESTADO DE LA APLICACIÓN ---
         let allOrders = [], allClients = [], allProducts = [];
         let currentRole = null;
         let unsubscribeListeners = [];
 
-        // MEJORA: ESTATUS SIMPLIFICADOS
+        // ESTATUS SIMPLIFICADOS
         const STATUS_OPTIONS = ['Pendiente', 'En Proceso', 'Listo para Entrega', 'Completado'];
         const STATUS_COLORS = {
             'Pendiente': 'bg-blue-100 text-blue-800',
@@ -342,11 +439,42 @@
         }
 
         function renderViews() {
-            if (currentRole === 'tienda') renderTiendaView();
-            else renderTallerView();
+            if (currentRole === 'tienda') {
+                renderDashboard();
+                renderTiendaView();
+            } else {
+                renderTallerView();
+            }
         }
         
         // --- LÓGICA DE RENDERIZADO ---
+        function renderDashboard() {
+            const dashboard = document.getElementById('dashboard');
+            const pending = allOrders.filter(o => o.status === 'Pendiente').length;
+            const inProcess = allOrders.filter(o => o.status === 'En Proceso').length;
+            const ready = allOrders.filter(o => o.status === 'Listo para Entrega').length;
+            const totalActive = pending + inProcess + ready;
+
+            dashboard.innerHTML = `
+                <div class="bg-white p-4 rounded-lg shadow-md text-center">
+                    <p class="text-3xl font-bold text-blue-500">${pending}</p>
+                    <p class="text-sm text-gray-500">Pendientes</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md text-center">
+                    <p class="text-3xl font-bold text-purple-500">${inProcess}</p>
+                    <p class="text-sm text-gray-500">En Proceso</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md text-center">
+                    <p class="text-3xl font-bold text-yellow-500">${ready}</p>
+                    <p class="text-sm text-gray-500">Listos</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md text-center">
+                    <p class="text-3xl font-bold text-gray-700">${totalActive}</p>
+                    <p class="text-sm text-gray-500">Total Activos</p>
+                </div>
+            `;
+        }
+
         function renderTiendaView() {
             const list = document.getElementById('tienda-orders-list');
             const search = document.getElementById('tienda-search').value.toLowerCase();
@@ -358,11 +486,8 @@
             });
             list.innerHTML = '';
             document.getElementById('no-orders-message').classList.toggle('hidden', filtered.length > 0);
-            filtered.sort((a, b) => {
-                const timeA = a.created_at ? a.created_at.toMillis() : 0;
-                const timeB = b.created_at ? b.created_at.toMillis() : 0;
-                return timeB - timeA;
-            }).forEach(order => list.innerHTML += createOrderCard(order));
+            filtered.sort((a, b) => (b.created_at?.toMillis() || 0) - (a.created_at?.toMillis() || 0))
+                    .forEach(order => list.innerHTML += createOrderCard(order));
         }
 
         function renderTallerView() {
@@ -377,20 +502,40 @@
             activeStatuses.forEach(status => {
                 const column = document.createElement('div');
                 column.className = 'w-80 flex-shrink-0 bg-gray-100 rounded-xl p-3 kanban-column';
+                const ordersContainer = document.createElement('div');
+                ordersContainer.className = 'space-y-4 kanban-orders-container';
+
                 const ordersHTML = ordersByStatus[status]
-                    .sort((a, b) => {
-                        const timeA = a.created_at ? a.created_at.toMillis() : 0;
-                        const timeB = b.created_at ? b.created_at.toMillis() : 0;
-                        return timeA - timeB; // Muestra los más antiguos primero en taller
-                    })
+                    .sort((a, b) => (a.created_at?.toMillis() || 0) - (b.created_at?.toMillis() || 0))
                     .map(createOrderCard).join('');
+                
+                ordersContainer.innerHTML = ordersHTML;
+
                 column.innerHTML = `
                     <h3 class="font-bold text-lg mb-3 px-2 flex items-center justify-between">
                         <span><i class="${STATUS_ICONS[status]} mr-2"></i>${status}</span>
                         <span class="text-sm font-semibold bg-gray-200 text-gray-700 rounded-full px-2 py-0.5">${ordersByStatus[status].length}</span>
-                    </h3>
-                    <div class="space-y-4">${ordersHTML}</div>`;
+                    </h3>`;
+                column.appendChild(ordersContainer);
                 board.appendChild(column);
+            });
+
+            // Inicializar SortableJS
+            const columns = board.querySelectorAll('.kanban-orders-container');
+            columns.forEach(col => {
+                new Sortable(col, {
+                    group: 'kanban',
+                    animation: 150,
+                    onEnd: async function (evt) {
+                        const orderId = evt.item.dataset.id;
+                        // El nuevo status es el del texto del H3 de la columna de destino
+                        const newStatus = evt.to.parentElement.querySelector('h3 span:first-child').textContent.trim();
+                        if (orderId && newStatus) {
+                            await updateDoc(doc(getCollectionRef('orders'), orderId), { status: newStatus });
+                            showToast(`Pedido movido a ${newStatus}`, 'success');
+                        }
+                    }
+                });
             });
         }
         
@@ -403,13 +548,14 @@
             const nextStatus = getNextStatus(order.status);
             
             const actionButton = currentRole === 'taller' && nextStatus 
-                ? `<button data-id="${order.id}" data-action="next-status" class="btn-primary !py-1 !px-3 text-xs"><i class="fas fa-arrow-right mr-1"></i> ${nextStatus}</button>` : '';
+                ? `<button data-id="${order.id}" data-action="next-status" class="btn-primary-gradient !py-1 !px-3 text-xs"><i class="fas fa-arrow-right mr-1"></i> ${nextStatus}</button>` : '';
             const editButtons = currentRole === 'tienda' 
                 ? `<button data-id="${order.id}" data-action="edit" class="text-gray-400 hover:text-orange-600"><i class="fas fa-edit"></i></button>
                    <button data-id="${order.id}" data-action="delete" class="text-gray-400 hover:text-red-600"><i class="fas fa-trash"></i></button>` : '';
 
+            // Importante: data-id="${order.id}" en el div principal para SortableJS
             return `
-            <div class="bg-white rounded-lg shadow-md p-4 border-l-4" style="border-color: var(--primary-color)">
+            <div class="bg-white rounded-lg shadow-md p-4 border-l-4 order-card" style="border-color: var(--primary-color)" data-id="${order.id}">
                 <div class="flex justify-between items-start">
                     <div>
                         <p class="font-bold text-lg">${client.name}</p>
@@ -481,14 +627,19 @@
             try {
                  if (id) {
                     await updateDoc(doc(getCollectionRef('orders'), id), orderData);
+                    showToast('¡Pedido actualizado con éxito!', 'success');
                 } else {
                     orderData.folio = `LAEZ-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${String(Date.now()).slice(-4)}`;
                     orderData.status = 'Pendiente';
                     orderData.created_at = Timestamp.now();
                     await addDoc(getCollectionRef('orders'), orderData);
+                    showToast('¡Pedido creado con éxito!', 'success');
                 }
                 orderModal.close();
-            } catch (error) { console.error("Error al guardar pedido:", error); }
+            } catch (error) { 
+                console.error("Error al guardar pedido:", error);
+                showToast('Error al guardar el pedido.', 'error');
+            }
         }
 
         async function handleOrderAction(e) {
@@ -551,6 +702,35 @@
             }
         });
 
+        // --- TEMA OSCURO ---
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.body.classList.add('dark');
+                themeToggleButton.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                document.body.classList.remove('dark');
+                themeToggleButton.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+        themeToggleButton.addEventListener('click', () => {
+            const newTheme = document.body.classList.contains('dark') ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            applyTheme(newTheme);
+        });
+
+        // --- NOTIFICACIONES TOAST ---
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.5s forwards';
+                toast.addEventListener('animationend', () => toast.remove());
+            }, 3000);
+        }
+        
         // --- SEED DATA (Solo para la primera vez) ---
         async function seedDatabaseIfNeeded() {
             if ((await getDocs(getCollectionRef('orders'))).empty) {
@@ -584,10 +764,11 @@
         });
 
         // --- INICIO ---
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        applyTheme(savedTheme);
         populateStatusFilter();
 
     </script>
 </body>
 </html>
-
 
