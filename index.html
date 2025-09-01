@@ -52,8 +52,7 @@
             <div class="w-full max-w-sm p-8 space-y-6 bg-white rounded-xl shadow-lg text-center">
                 <div>
                     <!-- NUEVO LOGO -->
-                    <!-- 👇 PEGA TU NUEVO ENLACE DIRECTO DE IMGBB AQUÍ 👇 -->
-                    <img src="https://ibb.co/C5KBr7NK" alt="Logo LAEZ" class="w-40 h-40 mx-auto">
+                    <img src="https://i.ibb.co/7jB3S4Y/1000120153.jpg" alt="Logo LAEZ" class="w-40 h-40 mx-auto">
                     <h1 class="text-3xl font-bold text-gray-800 mt-2">LAEZ Pedidos</h1>
                     <p class="text-gray-500">Tu centro de operaciones creativas</p>
                 </div>
@@ -77,8 +76,7 @@
             <!-- Header -->
             <header class="bg-white shadow-md p-4 flex justify-between items-center z-10">
                 <div class="flex items-center gap-3">
-                     <!-- 👇 Y TAMBIÉN PEGA TU NUEVO ENLACE DIRECTO AQUÍ 👇 -->
-                     <img src="https://ibb.co/C5KBr7NK" alt="Logo LAEZ" class="w-10 h-10">
+                     <img src="https://i.ibb.co/7jB3S4Y/1000120153.jpg" alt="Logo LAEZ" class="w-10 h-10">
                     <div>
                         <h1 class="text-xl font-bold text-gray-800">LAEZ Pedidos</h1>
                         <p id="user-role-display" class="text-sm text-gray-500"></p>
@@ -360,8 +358,11 @@
             });
             list.innerHTML = '';
             document.getElementById('no-orders-message').classList.toggle('hidden', filtered.length > 0);
-            filtered.sort((a, b) => b.created_at.toMillis() - a.created_at.toMillis())
-                    .forEach(order => list.innerHTML += createOrderCard(order));
+            filtered.sort((a, b) => {
+                const timeA = a.created_at ? a.created_at.toMillis() : 0;
+                const timeB = b.created_at ? b.created_at.toMillis() : 0;
+                return timeB - timeA;
+            }).forEach(order => list.innerHTML += createOrderCard(order));
         }
 
         function renderTallerView() {
@@ -377,7 +378,11 @@
                 const column = document.createElement('div');
                 column.className = 'w-80 flex-shrink-0 bg-gray-100 rounded-xl p-3 kanban-column';
                 const ordersHTML = ordersByStatus[status]
-                    .sort((a, b) => a.created_at.toMillis() - b.created_at.toMillis())
+                    .sort((a, b) => {
+                        const timeA = a.created_at ? a.created_at.toMillis() : 0;
+                        const timeB = b.created_at ? b.created_at.toMillis() : 0;
+                        return timeA - timeB; // Muestra los más antiguos primero en taller
+                    })
                     .map(createOrderCard).join('');
                 column.innerHTML = `
                     <h3 class="font-bold text-lg mb-3 px-2 flex items-center justify-between">
@@ -392,10 +397,11 @@
         function createOrderCard(order) {
             const client = allClients.find(c => c.id === order.client_id) || { name: 'N/A' };
             const product = allProducts.find(p => p.id === order.product_id) || { name: 'N/A' };
-            const dueDate = new Date(order.due_date + 'T12:00:00Z').toLocaleDateString('es-MX', { timeZone: 'UTC' });
+            const dueDate = order.due_date 
+                ? new Date(order.due_date + 'T12:00:00Z').toLocaleDateString('es-MX', { timeZone: 'UTC' })
+                : 'Fecha no definida';
             const nextStatus = getNextStatus(order.status);
             
-            // MEJORA: Botones de acción más claros y visuales
             const actionButton = currentRole === 'taller' && nextStatus 
                 ? `<button data-id="${order.id}" data-action="next-status" class="btn-primary !py-1 !px-3 text-xs"><i class="fas fa-arrow-right mr-1"></i> ${nextStatus}</button>` : '';
             const editButtons = currentRole === 'tienda' 
@@ -449,7 +455,6 @@
             orderModal.showModal();
         }
 
-        // MEJORA: Cálculo automático de subtotal
         function updateSubtotal() {
             const quantity = parseInt(document.getElementById('quantity').value) || 0;
             const price = parseFloat(document.getElementById('price-unit').value) || 0;
