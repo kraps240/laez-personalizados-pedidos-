@@ -9,8 +9,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #f59e0b; /* Amber 500 */
-            --primary-hover: #f59e0b;
+            /* Colores inspirados en tu nuevo logo LAEZ */
+            --primary-color: #F97316; /* Orange 500 */
+            --primary-hover: #EA580C; /* Orange 600 */
+            --secondary-color: #4B5563; /* Gray 600 */
         }
         body {
             font-family: 'Inter', sans-serif;
@@ -27,6 +29,17 @@
             background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(2px);
         }
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
     </style>
 </head>
 <body class="text-gray-800">
@@ -38,13 +51,15 @@
         <div id="login-view" class="flex items-center justify-center h-full bg-gray-100">
             <div class="w-full max-w-sm p-8 space-y-6 bg-white rounded-xl shadow-lg text-center">
                 <div>
-                    <img src="https://i.ibb.co/L5gP1R7/Picsart-25-08-09-20-48-17-721.jpg" alt="Logo LAEZ" class="w-32 h-32 mx-auto rounded-full shadow-md">
-                    <h1 class="text-3xl font-bold text-gray-800 mt-4">LAEZ Pedidos</h1>
-                    <p class="text-gray-500">Bienvenido, Daniel</p>
+                    <!-- NUEVO LOGO -->
+                    <!-- 👇 PEGA TU NUEVO ENLACE DIRECTO DE IMGBB AQUÍ 👇 -->
+                    <img src="https://ibb.co/C5KBr7NK" alt="Logo LAEZ" class="w-40 h-40 mx-auto">
+                    <h1 class="text-3xl font-bold text-gray-800 mt-2">LAEZ Pedidos</h1>
+                    <p class="text-gray-500">Tu centro de operaciones creativas</p>
                 </div>
                 <div class="space-y-4">
                     <h2 class="text-lg font-medium">Selecciona tu rol para continuar</h2>
-                    <button id="login-tienda" class="w-full bg-amber-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-amber-600 transition duration-300 shadow-sm flex items-center justify-center gap-2">
+                    <button id="login-tienda" class="w-full btn-primary flex items-center justify-center gap-2">
                         <i class="fas fa-store"></i>
                         Entrar como Tienda
                     </button>
@@ -62,14 +77,15 @@
             <!-- Header -->
             <header class="bg-white shadow-md p-4 flex justify-between items-center z-10">
                 <div class="flex items-center gap-3">
-                     <img src="https://i.ibb.co/L5gP1R7/Picsart-25-08-09-20-48-17-721.jpg" alt="Logo LAEZ" class="w-10 h-10 rounded-full">
+                     <!-- 👇 Y TAMBIÉN PEGA TU NUEVO ENLACE DIRECTO AQUÍ 👇 -->
+                     <img src="https://ibb.co/C5KBr7NK" alt="Logo LAEZ" class="w-10 h-10">
                     <div>
                         <h1 class="text-xl font-bold text-gray-800">LAEZ Pedidos</h1>
                         <p id="user-role-display" class="text-sm text-gray-500"></p>
                     </div>
                 </div>
                 <div>
-                    <button id="new-order-btn" class="hidden bg-amber-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-amber-600 transition duration-300 shadow-sm flex items-center gap-2">
+                    <button id="new-order-btn" class="hidden btn-primary flex items-center gap-2 !py-2 !px-4">
                         <i class="fas fa-plus"></i>
                         <span class="hidden sm:inline">Nuevo Pedido</span>
                     </button>
@@ -84,17 +100,15 @@
                 <!-- Vista Tienda -->
                 <div id="tienda-view-content" class="hidden">
                     <div class="flex flex-wrap gap-4 mb-4 items-center">
-                        <h2 class="text-2xl font-bold text-gray-700">Pedidos Recibidos</h2>
+                        <h2 class="text-2xl font-bold text-gray-700">Panel de Pedidos</h2>
                         <div class="relative flex-grow max-w-xs">
-                            <input type="text" id="tienda-search" placeholder="Buscar por folio o cliente..." class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            <input type="text" id="tienda-search" placeholder="Buscar por folio o cliente..." class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
                             <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                         </div>
-                        <select id="tienda-filter-status" class="border rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-amber-500">
-                            <option value="">Todos los Estatus</option>
+                        <select id="tienda-filter-status" class="border rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-orange-500">
                         </select>
                     </div>
                     <div id="tienda-orders-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        <!-- Las tarjetas de pedido se insertan aquí -->
                     </div>
                 </div>
 
@@ -102,20 +116,18 @@
                 <div id="taller-view-content" class="hidden h-full flex flex-col">
                      <h2 class="text-2xl font-bold text-gray-700 mb-4">Línea de Producción</h2>
                     <div id="taller-kanban-board" class="flex-1 flex gap-6 overflow-x-auto main-container pb-4">
-                        <!-- Columnas de Kanban se insertan aquí -->
                     </div>
                 </div>
 
                  <div id="loading-indicator" class="text-center p-10">
-                    <i class="fas fa-spinner fa-spin text-4xl text-amber-500"></i>
-                    <p class="mt-2 text-gray-600">Cargando pedidos...</p>
+                    <i class="fas fa-spinner fa-spin text-4xl text-orange-500"></i>
+                    <p class="mt-2 text-gray-600">Cargando la magia...</p>
                 </div>
                 <div id="no-orders-message" class="hidden text-center p-10 bg-white rounded-lg shadow">
                     <i class="fas fa-folder-open text-5xl text-gray-300"></i>
                     <p class="mt-4 text-xl font-semibold text-gray-600">No hay pedidos para mostrar</p>
-                    <p class="text-gray-400">¡Crea un nuevo pedido para empezar!</p>
+                    <p class="text-gray-400">¡Crea un nuevo pedido para empezar a crear!</p>
                 </div>
-
             </main>
         </div>
     </div>
@@ -135,59 +147,61 @@
                 <div>
                     <label for="client-id" class="block text-sm font-medium text-gray-700">Cliente</label>
                     <div class="flex gap-2">
-                        <select id="client-id" name="client_id" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"></select>
+                        <select id="client-id" name="client_id" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"></select>
                         <button type="button" id="manage-clients-btn" class="mt-1 bg-gray-200 px-3 rounded-md hover:bg-gray-300"><i class="fas fa-users"></i></button>
                     </div>
                 </div>
                  <div>
                     <label for="due-date" class="block text-sm font-medium text-gray-700">Fecha de Entrega</label>
-                    <input type="date" id="due-date" name="due_date" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500">
+                    <input type="date" id="due-date" name="due_date" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500">
                 </div>
             </div>
 
             <div class="border-t pt-4">
                 <h4 class="font-semibold text-lg mb-2">Detalles del Producto</h4>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                     <div>
+                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                     <div class="md:col-span-2">
                         <label for="product-id" class="block text-sm font-medium text-gray-700">Producto</label>
                         <div class="flex gap-2">
-                             <select id="product-id" name="product_id" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"></select>
+                             <select id="product-id" name="product_id" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"></select>
                              <button type="button" id="manage-products-btn" class="mt-1 bg-gray-200 px-3 rounded-md hover:bg-gray-300"><i class="fas fa-box-open"></i></button>
                         </div>
                     </div>
                     <div>
                         <label for="quantity" class="block text-sm font-medium text-gray-700">Cantidad</label>
-                        <input type="number" id="quantity" name="quantity" min="1" value="1" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500">
+                        <input type="number" id="quantity" name="quantity" min="1" value="1" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500">
                     </div>
                     <div>
-                        <label for="price-unit" class="block text-sm font-medium text-gray-700">Precio Unitario</label>
-                        <input type="number" step="0.01" id="price-unit" name="price_unit" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500">
+                        <label for="price-unit" class="block text-sm font-medium text-gray-700">Precio Unit.</label>
+                        <input type="number" step="0.01" id="price-unit" name="price_unit" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500">
                     </div>
+                </div>
+                <div class="text-right mt-2">
+                    <span class="text-sm text-gray-500">Subtotal:</span>
+                    <span id="subtotal-display" class="font-bold text-xl text-gray-800">$0.00</span>
                 </div>
             </div>
             
             <div class="border-t pt-4">
                  <h4 class="font-semibold text-lg mb-2">Personalización</h4>
-                 <textarea id="personalization-notes" name="personalization_notes" rows="3" placeholder="Ej: 'Feliz Cumpleaños, Papá', tipografía Arial, colores rojo y azul..." class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500"></textarea>
+                 <textarea id="personalization-notes" name="personalization_notes" rows-="3" placeholder="Ej: 'Feliz Cumpleaños, Papá', tipografía Arial, colores rojo y azul..." class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"></textarea>
             </div>
 
             <div class="border-t pt-4">
                 <h4 class="font-semibold text-lg mb-2">Imágenes (URLs)</h4>
                 <div class="space-y-2">
-                     <input type="url" id="ref-image-url-1" placeholder="URL de imagen de referencia 1" class="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500">
-                     <input type="url" id="ref-image-url-2" placeholder="URL de imagen de referencia 2 (opcional)" class="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500">
-                     <input type="url" id="ref-image-url-3" placeholder="URL de imagen de referencia 3 (opcional)" class="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-amber-500 focus:border-amber-500">
+                     <input type="url" id="ref-image-url-1" placeholder="URL de imagen de referencia 1" class="block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500">
                 </div>
             </div>
 
             <div class="flex justify-end gap-4 pt-4 border-t">
                 <button type="button" onclick="document.getElementById('order-modal').close()" class="bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Cancelar</button>
-                <button type="submit" class="bg-amber-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-amber-600 transition">Guardar Pedido</button>
+                <button type="submit" class="btn-primary">Guardar Pedido</button>
             </div>
         </form>
     </dialog>
     
-    <!-- Modal para CRUD de Clientes -->
+    <!-- Modales de Clientes y Productos (sin cambios mayores) -->
     <dialog id="clients-modal" class="p-6 rounded-xl shadow-2xl w-full max-w-lg">
         <div class="flex justify-between items-center mb-4">
              <h3 class="text-xl font-bold">Gestionar Clientes</h3>
@@ -200,8 +214,6 @@
         </form>
         <div id="clients-list" class="max-h-64 overflow-y-auto space-y-2"></div>
     </dialog>
-
-    <!-- Modal para CRUD de Productos -->
     <dialog id="products-modal" class="p-6 rounded-xl shadow-2xl w-full max-w-lg">
         <div class="flex justify-between items-center mb-4">
              <h3 class="text-xl font-bold">Gestionar Productos</h3>
@@ -218,23 +230,10 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { 
-            getFirestore, 
-            collection, 
-            onSnapshot, 
-            addDoc, 
-            doc, 
-            setDoc,
-            updateDoc, 
-            deleteDoc,
-            query,
-            getDocs,
-            Timestamp
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, onSnapshot, addDoc, doc, updateDoc, deleteDoc, getDocs, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // --- CONFIGURACIÓN DE FIREBASE ---
-        // ¡Listo! Tus credenciales ya están aquí.
+        // Tus credenciales de Firebase. ¡Ya están configuradas!
         const firebaseConfig = {
             apiKey: "AIzaSyBH5PBjIKabMpK6fMlE5OcdaWevWZ56Qt8",
             authDomain: "laezz-app.firebaseapp.com",
@@ -244,70 +243,48 @@
             appId: "1:998180579339:web:0eb781aeccbadb9354ff0e",
             measurementId: "G-LCSRCPG0ZE"
         };
-
         const appId = firebaseConfig.projectId;
-        
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // --- ESTADO DE LA APLICACIÓN ---
-        let currentUser = null;
-        let currentRole = null; // 'tienda' o 'taller'
-        let allOrders = [];
-        let allClients = [];
-        let allProducts = [];
-        let unsubscribeOrders = null;
-        let unsubscribeClients = null;
-        let unsubscribeProducts = null;
-
-        const STATUS_OPTIONS = ['Recibido', 'En Diseño', 'Aprobación', 'En Producción', 'Calidad', 'Listo', 'Entregado', 'Cerrado'];
-        const STATUS_COLORS = {
-            'Recibido': 'bg-blue-100 text-blue-800',
-            'En Diseño': 'bg-purple-100 text-purple-800',
-            'Aprobación': 'bg-yellow-100 text-yellow-800',
-            'En Producción': 'bg-orange-100 text-orange-800',
-            'Calidad': 'bg-indigo-100 text-indigo-800',
-            'Listo': 'bg-teal-100 text-teal-800',
-            'Entregado': 'bg-green-100 text-green-800',
-            'Cerrado': 'bg-gray-100 text-gray-800',
-        };
-        const STATUS_ICONS = {
-            'Recibido': 'fas fa-inbox',
-            'En Diseño': 'fas fa-paint-brush',
-            'Aprobación': 'fas fa-check-double',
-            'En Producción': 'fas fa-cogs',
-            'Calidad': 'fas fa-award',
-            'Listo': 'fas fa-box-open',
-            'Entregado': 'fas fa-handshake',
-            'Cerrado': 'fas fa-archive',
-        };
-
-        // --- ELEMENTOS DEL DOM ---
+        // --- ELEMENTOS DEL DOM (CORRECCIÓN) ---
         const loginView = document.getElementById('login-view');
         const mainView = document.getElementById('main-view');
         const orderModal = document.getElementById('order-modal');
         const orderForm = document.getElementById('order-form');
-        
+
+        // --- ESTADO DE LA APLICACIÓN ---
+        let allOrders = [], allClients = [], allProducts = [];
+        let currentRole = null;
+        let unsubscribeListeners = [];
+
+        // MEJORA: ESTATUS SIMPLIFICADOS
+        const STATUS_OPTIONS = ['Pendiente', 'En Proceso', 'Listo para Entrega', 'Completado'];
+        const STATUS_COLORS = {
+            'Pendiente': 'bg-blue-100 text-blue-800',
+            'En Proceso': 'bg-purple-100 text-purple-800',
+            'Listo para Entrega': 'bg-yellow-100 text-yellow-800',
+            'Completado': 'bg-green-100 text-green-800',
+        };
+        const STATUS_ICONS = {
+            'Pendiente': 'fas fa-inbox',
+            'En Proceso': 'fas fa-cogs',
+            'Listo para Entrega': 'fas fa-box-open',
+            'Completado': 'fas fa-check-double',
+        };
+
         // --- INICIALIZACIÓN Y AUTENTICACIÓN ---
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                currentUser = user;
-                document.getElementById('auth-status').textContent = 'Conectado. ¡Listo!';
-                document.getElementById('auth-status').classList.replace('text-gray-400', 'text-green-500');
+        onAuthStateChanged(auth, user => {
+            if (!user) {
+                signInAnonymously(auth).catch(error => {
+                    console.error("Error de autenticación anónima:", error);
+                    let msg = "Error: Habilita la autenticación anónima en tu Consola de Firebase.";
+                    document.getElementById('auth-status').textContent = msg;
+                });
             } else {
-                 try {
-                    await signInAnonymously(auth);
-                } catch (error) {
-                    console.error("Error de autenticación:", error);
-                    let errorMessage = 'Error de conexión. Revisa las credenciales de Firebase.';
-                    // Este error específico significa que necesitas habilitar el "Sign-in anónimo" en tu consola de Firebase.
-                    if (error.code === 'auth/configuration-not-found') {
-                        errorMessage = "Error: Habilita la autenticación anónima en tu Consola de Firebase > Authentication > Sign-in method.";
-                    }
-                    document.getElementById('auth-status').textContent = errorMessage;
-                    document.getElementById('auth-status').classList.replace('text-gray-400', 'text-red-500');
-                }
+                 document.getElementById('auth-status').textContent = 'Conectado. ¡Listo!';
+                 document.getElementById('auth-status').classList.replace('text-gray-400', 'text-green-500');
             }
         });
 
@@ -333,83 +310,42 @@
                 tallerContent.classList.remove('hidden');
                 newOrderBtn.classList.add('hidden');
             }
-
             loadAndRenderData();
         }
 
         function logout() {
-            if (unsubscribeOrders) unsubscribeOrders();
-            if (unsubscribeClients) unsubscribeClients();
-            if (unsubscribeProducts) unsubscribeProducts();
-            
+            unsubscribeListeners.forEach(unsub => unsub());
+            unsubscribeListeners = [];
             currentRole = null;
-            currentUser = null;
-            allOrders = [];
-            allClients = [];
-            allProducts = [];
-
             mainView.classList.add('hidden');
-            mainView.classList.remove('flex');
             loginView.classList.remove('hidden');
         }
 
         // --- LÓGICA DE DATOS (FIRESTORE) ---
-        function getCollectionRef(collectionName) {
-            if (!appId) {
-                console.error("Firebase projectId no está configurado.");
-                return null;
-            }
-            return collection(db, `/artifacts/${appId}/public/data/${collectionName}`);
-        }
+        function getCollectionRef(name) { return collection(db, `/artifacts/${appId}/public/data/${name}`); }
 
         function loadAndRenderData() {
-            const loadingIndicator = document.getElementById('loading-indicator');
-            loadingIndicator.classList.remove('hidden');
-            
+            document.getElementById('loading-indicator').classList.remove('hidden');
             seedDatabaseIfNeeded();
 
-            const clientsRef = getCollectionRef('clients');
-            if (clientsRef) {
-                unsubscribeClients = onSnapshot(clientsRef, (snapshot) => {
-                    allClients = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    populateClientDropdown();
-                    renderClientsList();
-                });
-            }
+            const collections = {
+                clients: (data) => { allClients = data; populateClientDropdown(); renderClientsList(); },
+                products: (data) => { allProducts = data; populateProductDropdown(); renderProductsList(); },
+                orders: (data) => { allOrders = data; document.getElementById('loading-indicator').classList.add('hidden'); renderViews(); }
+            };
 
-            const productsRef = getCollectionRef('products');
-            if(productsRef) {
-                unsubscribeProducts = onSnapshot(productsRef, (snapshot) => {
-                    allProducts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    populateProductDropdown();
-                    renderProductsList();
-                    document.getElementById('product-id').addEventListener('change', (e) => {
-                        const selectedProduct = allProducts.find(p => p.id === e.target.value);
-                        if (selectedProduct) {
-                            document.getElementById('price-unit').value = selectedProduct.base_price;
-                        }
-                    });
-                });
-            }
+            unsubscribeListeners.forEach(unsub => unsub());
+            unsubscribeListeners = Object.keys(collections).map(name => 
+                onSnapshot(getCollectionRef(name), snapshot => {
+                    const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    collections[name](data);
+                })
+            );
+        }
 
-            const ordersRef = getCollectionRef('orders');
-            if(ordersRef) {
-                unsubscribeOrders = onSnapshot(ordersRef, (snapshot) => {
-                    allOrders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    loadingIndicator.classList.add('hidden');
-
-                    if (currentRole === 'tienda') {
-                        renderTiendaView();
-                    } else {
-                        renderTallerView();
-                    }
-                }, (error) => {
-                    console.error("Error al cargar pedidos: ", error);
-                    loadingIndicator.textContent = "Error al cargar datos. ¿Configuraste las reglas de Firestore?";
-                });
-            } else {
-                loadingIndicator.classList.add('hidden');
-            }
+        function renderViews() {
+            if (currentRole === 'tienda') renderTiendaView();
+            else renderTallerView();
         }
         
         // --- LÓGICA DE RENDERIZADO ---
@@ -417,87 +353,55 @@
             const list = document.getElementById('tienda-orders-list');
             const search = document.getElementById('tienda-search').value.toLowerCase();
             const status = document.getElementById('tienda-filter-status').value;
-
-            const filteredOrders = allOrders.filter(order => {
-                const client = allClients.find(c => c.id === order.client_id);
-                const clientName = client ? client.name.toLowerCase() : '';
-                const folio = order.folio ? order.folio.toLowerCase() : '';
-
-                const matchesSearch = folio.includes(search) || clientName.includes(search);
-                const matchesStatus = !status || order.status === status;
-                
-                return matchesSearch && matchesStatus;
+            const filtered = allOrders.filter(o => {
+                const client = allClients.find(c => c.id === o.client_id);
+                return (!status || o.status === status) &&
+                       (!search || o.folio.toLowerCase().includes(search) || (client && client.name.toLowerCase().includes(search)));
             });
-
             list.innerHTML = '';
-            document.getElementById('no-orders-message').classList.toggle('hidden', filteredOrders.length > 0);
-            
-            filteredOrders
-                .sort((a, b) => (b.created_at?.toMillis() || 0) - (a.created_at?.toMillis() || 0))
-                .forEach(order => list.innerHTML += createOrderCard(order));
+            document.getElementById('no-orders-message').classList.toggle('hidden', filtered.length > 0);
+            filtered.sort((a, b) => b.created_at.toMillis() - a.created_at.toMillis())
+                    .forEach(order => list.innerHTML += createOrderCard(order));
         }
 
         function renderTallerView() {
             const board = document.getElementById('taller-kanban-board');
             board.innerHTML = '';
+            const activeStatuses = STATUS_OPTIONS.filter(s => s !== 'Completado');
+            const ordersByStatus = activeStatuses.reduce((acc, status) => ({...acc, [status]: allOrders.filter(o => o.status === status)}), {});
             
-            const ordersByStatus = STATUS_OPTIONS.reduce((acc, status) => {
-                if (status !== 'Cerrado' && status !== 'Entregado') {
-                    acc[status] = allOrders.filter(order => order.status === status);
-                }
-                return acc;
-            }, {});
+            const activeCount = Object.values(ordersByStatus).flat().length;
+            document.getElementById('no-orders-message').classList.toggle('hidden', activeCount > 0);
 
-            const activeOrdersCount = Object.values(ordersByStatus).flat().length;
-            document.getElementById('no-orders-message').classList.toggle('hidden', activeOrdersCount > 0);
-            if (activeOrdersCount === 0) {
-                 document.getElementById('no-orders-message').querySelector('p.font-semibold').textContent = '¡No hay pedidos activos en producción!';
-            }
-
-            for (const status in ordersByStatus) {
+            activeStatuses.forEach(status => {
                 const column = document.createElement('div');
                 column.className = 'w-80 flex-shrink-0 bg-gray-100 rounded-xl p-3 kanban-column';
-                
-                const orders = ordersByStatus[status]
-                    .sort((a, b) => (a.created_at?.toMillis() || 0) - (b.created_at?.toMillis() || 0))
+                const ordersHTML = ordersByStatus[status]
+                    .sort((a, b) => a.created_at.toMillis() - b.created_at.toMillis())
                     .map(createOrderCard).join('');
-
                 column.innerHTML = `
                     <h3 class="font-bold text-lg mb-3 px-2 flex items-center justify-between">
-                        <span><i class="${STATUS_ICONS[status] || 'fas fa-question-circle'} mr-2"></i>${status}</span>
+                        <span><i class="${STATUS_ICONS[status]} mr-2"></i>${status}</span>
                         <span class="text-sm font-semibold bg-gray-200 text-gray-700 rounded-full px-2 py-0.5">${ordersByStatus[status].length}</span>
                     </h3>
-                    <div class="space-y-4">${orders}</div>
-                `;
+                    <div class="space-y-4">${ordersHTML}</div>`;
                 board.appendChild(column);
-            }
+            });
         }
         
         function createOrderCard(order) {
-            const client = allClients.find(c => c.id === order.client_id) || { name: 'Cliente no encontrado' };
-            const product = allProducts.find(p => p.id === order.product_id) || { name: 'Producto no encontrado' };
-            const dueDate = order.due_date ? new Date(order.due_date + 'T00:00:00-06:00').toLocaleDateString('es-MX', { timeZone: 'America/Mexico_City' }) : 'N/A';
-            
-            const statusColor = STATUS_COLORS[order.status] || 'bg-gray-100 text-gray-800';
-            const statusIcon = STATUS_ICONS[order.status] || 'fas fa-question-circle';
-
+            const client = allClients.find(c => c.id === order.client_id) || { name: 'N/A' };
+            const product = allProducts.find(p => p.id === order.product_id) || { name: 'N/A' };
+            const dueDate = new Date(order.due_date + 'T12:00:00Z').toLocaleDateString('es-MX', { timeZone: 'UTC' });
             const nextStatus = getNextStatus(order.status);
-            const actionButtonHTML = currentRole === 'taller' && nextStatus ? `
-                <button data-id="${order.id}" data-action="next-status" class="bg-green-500 text-white text-xs font-bold py-1 px-3 rounded-full hover:bg-green-600 transition">
-                    <i class="fas fa-arrow-right mr-1"></i> ${nextStatus}
-                </button>
-            ` : '';
             
-            const editButtonHTML = currentRole === 'tienda' ? `
-                 <button data-id="${order.id}" data-action="edit" class="text-gray-400 hover:text-amber-600 transition"><i class="fas fa-edit"></i></button>
-                 <button data-id="${order.id}" data-action="delete" class="text-gray-400 hover:text-red-600 transition"><i class="fas fa-trash"></i></button>
-            ` : '';
+            // MEJORA: Botones de acción más claros y visuales
+            const actionButton = currentRole === 'taller' && nextStatus 
+                ? `<button data-id="${order.id}" data-action="next-status" class="btn-primary !py-1 !px-3 text-xs"><i class="fas fa-arrow-right mr-1"></i> ${nextStatus}</button>` : '';
+            const editButtons = currentRole === 'tienda' 
+                ? `<button data-id="${order.id}" data-action="edit" class="text-gray-400 hover:text-orange-600"><i class="fas fa-edit"></i></button>
+                   <button data-id="${order.id}" data-action="delete" class="text-gray-400 hover:text-red-600"><i class="fas fa-trash"></i></button>` : '';
 
-            const imageThumbnails = (order.image_urls || [])
-                .filter(url => url)
-                .map(url => `<a href="${url}" target="_blank" class="block w-8 h-8 rounded border bg-gray-200 overflow-hidden"><img src="${url}" class="w-full h-full object-cover" loading="lazy"></a>`)
-                .join('');
-            
             return `
             <div class="bg-white rounded-lg shadow-md p-4 border-l-4" style="border-color: var(--primary-color)">
                 <div class="flex justify-between items-start">
@@ -505,26 +409,23 @@
                         <p class="font-bold text-lg">${client.name}</p>
                         <p class="text-xs text-gray-500 font-mono">${order.folio}</p>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-xs font-semibold ${statusColor} px-2 py-1 rounded-full"><i class="${statusIcon} mr-1.5"></i>${order.status}</span>
-                         ${editButtonHTML}
-                    </div>
+                    <div class="flex items-center gap-2">${editButtons}</div>
                 </div>
                 <div class="mt-3">
                     <p class="font-semibold">${order.quantity} x ${product.name}</p>
-                    <p class="text-sm text-gray-600 truncate">${order.personalization_notes || 'Sin notas de personalización.'}</p>
-                </div>
-                <div class="flex gap-2 mt-2">
-                     ${imageThumbnails}
+                    <p class="text-sm text-gray-600 truncate">${order.personalization_notes || 'Sin notas.'}</p>
                 </div>
                 <div class="mt-4 pt-3 border-t flex justify-between items-center">
-                    <div class="text-sm text-gray-500">
-                        <i class="far fa-calendar-alt mr-1"></i> Entrega: ${dueDate}
+                    <div class="text-sm">
+                        <span class="font-bold text-lg text-gray-700">$${order.subtotal?.toFixed(2) || '0.00'}</span>
+                        <p class="text-xs text-gray-500"><i class="far fa-calendar-alt mr-1"></i> ${dueDate}</p>
                     </div>
-                    ${actionButtonHTML}
+                    <div class="flex flex-col items-end gap-1">
+                        <span class="text-xs font-semibold ${STATUS_COLORS[order.status]} px-2 py-1 rounded-full"><i class="${STATUS_ICONS[order.status]} mr-1.5"></i>${order.status}</span>
+                        ${actionButton}
+                    </div>
                 </div>
-            </div>
-            `;
+            </div>`;
         }
         
         // --- MANEJO DE FORMULARIOS Y MODALES ---
@@ -534,110 +435,78 @@
             document.getElementById('modal-title').textContent = order ? `Editar Pedido ${order.folio}` : 'Nuevo Pedido';
             
             if (order) {
-                document.getElementById('client-id').value = order.client_id;
-                document.getElementById('due-date').value = order.due_date;
-                document.getElementById('product-id').value = order.product_id;
-                document.getElementById('quantity').value = order.quantity;
-                document.getElementById('price-unit').value = order.price_unit;
-                document.getElementById('personalization-notes').value = order.personalization_notes;
-                if(order.image_urls) {
-                    document.getElementById('ref-image-url-1').value = order.image_urls[0] || '';
-                    document.getElementById('ref-image-url-2').value = order.image_urls[1] || '';
-                    document.getElementById('ref-image-url-3').value = order.image_urls[2] || '';
-                }
+                Object.keys(order).forEach(key => {
+                    const el = document.getElementById(key);
+                    if (el) el.value = order[key];
+                });
+                document.getElementById('ref-image-url-1').value = order.image_urls?.[0] || '';
             } else {
-                 const today = new Date();
-                 today.setDate(today.getDate() + 3);
-                 document.getElementById('due-date').value = today.toISOString().split('T')[0];
+                const today = new Date();
+                today.setDate(today.getDate() + 3);
+                document.getElementById('due-date').value = today.toISOString().split('T')[0];
             }
+            updateSubtotal();
             orderModal.showModal();
+        }
+
+        // MEJORA: Cálculo automático de subtotal
+        function updateSubtotal() {
+            const quantity = parseInt(document.getElementById('quantity').value) || 0;
+            const price = parseFloat(document.getElementById('price-unit').value) || 0;
+            const subtotal = quantity * price;
+            document.getElementById('subtotal-display').textContent = `$${subtotal.toFixed(2)}`;
         }
         
         async function handleOrderFormSubmit(e) {
             e.preventDefault();
             const id = document.getElementById('order-id').value;
-            const imageUrls = [
-                document.getElementById('ref-image-url-1').value.trim(),
-                document.getElementById('ref-image-url-2').value.trim(),
-                document.getElementById('ref-image-url-3').value.trim()
-            ].filter(url => url);
-
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const price_unit = parseFloat(document.getElementById('price-unit').value);
             const orderData = {
                 client_id: document.getElementById('client-id').value,
                 due_date: document.getElementById('due-date').value,
                 product_id: document.getElementById('product-id').value,
-                quantity: parseInt(document.getElementById('quantity').value),
-                price_unit: parseFloat(document.getElementById('price-unit').value),
+                quantity,
+                price_unit,
+                subtotal: quantity * price_unit,
                 personalization_notes: document.getElementById('personalization-notes').value,
-                image_urls: imageUrls,
+                image_urls: [document.getElementById('ref-image-url-1').value.trim()].filter(Boolean),
             };
-
-            if (new Date(orderData.due_date) < new Date(new Date().toDateString())) {
-                alert('La fecha de entrega no puede ser en el pasado.');
-                return;
-            }
-            if (orderData.quantity < 1) {
-                alert('La cantidad debe ser al menos 1.');
-                return;
-            }
 
             try {
                  if (id) {
-                    const orderRef = doc(getCollectionRef('orders'), id);
-                    await updateDoc(orderRef, orderData);
+                    await updateDoc(doc(getCollectionRef('orders'), id), orderData);
                 } else {
                     orderData.folio = `LAEZ-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${String(Date.now()).slice(-4)}`;
-                    orderData.status = 'Recibido';
+                    orderData.status = 'Pendiente';
                     orderData.created_at = Timestamp.now();
                     await addDoc(getCollectionRef('orders'), orderData);
                 }
                 orderModal.close();
-            } catch (error) {
-                 console.error("Error guardando pedido: ", error);
-                 alert("No se pudo guardar el pedido. Verifica tu conexión y la configuración de Firebase.");
-            }
+            } catch (error) { console.error("Error al guardar pedido:", error); }
         }
 
         async function handleOrderAction(e) {
             const target = e.target.closest('button[data-id]');
             if (!target) return;
+            const { id, action } = target.dataset;
+            const order = allOrders.find(o => o.id === id);
+            if (!order) return;
 
-            const id = target.dataset.id;
-            const action = target.dataset.action;
-            const ordersRef = getCollectionRef('orders');
-            if(!ordersRef) return;
-
-            if (action === 'edit') {
-                const order = allOrders.find(o => o.id === id);
-                if(order) openOrderModal(order);
-            } else if (action === 'delete') {
-                if(confirm('¿Estás seguro de que quieres eliminar este pedido?')) {
-                    await deleteDoc(doc(ordersRef, id));
-                }
-            } else if (action === 'next-status') {
-                const order = allOrders.find(o => o.id === id);
-                if (order) {
-                    const nextStatus = getNextStatus(order.status);
-                    if (nextStatus) {
-                         await updateDoc(doc(ordersRef, id), { status: nextStatus });
-                    }
-                }
-            }
+            if (action === 'edit') openOrderModal(order);
+            if (action === 'delete' && confirm('¿Seguro que quieres eliminar este pedido?')) await deleteDoc(doc(getCollectionRef('orders'), id));
+            if (action === 'next-status') await updateDoc(doc(getCollectionRef('orders'), id), { status: getNextStatus(order.status) });
         }
         
         // --- UTILIDADES ---
-        function populateClientDropdown() {
-            const select = document.getElementById('client-id');
-            select.innerHTML = '<option value="">Selecciona un cliente</option>';
-            allClients.forEach(c => select.innerHTML += `<option value="${c.id}">${c.name}</option>`);
-        }
-
-        function populateProductDropdown() {
-            const select = document.getElementById('product-id');
-            select.innerHTML = '<option value="">Selecciona un producto</option>';
-            allProducts.forEach(p => select.innerHTML += `<option value="${p.id}">${p.name}</option>`);
-        }
-
+        const populateDropdown = (id, data, nameField) => {
+            const select = document.getElementById(id);
+            select.innerHTML = `<option value="">Selecciona...</option>`;
+            data.forEach(item => select.innerHTML += `<option value="${item.id}">${item[nameField]}</option>`);
+        };
+        const populateClientDropdown = () => populateDropdown('client-id', allClients, 'name');
+        const populateProductDropdown = () => populateDropdown('product-id', allProducts, 'name');
+        
         function populateStatusFilter() {
              const select = document.getElementById('tienda-filter-status');
              select.innerHTML = '<option value="">Todos los Estatus</option>';
@@ -646,55 +515,44 @@
         
         function getNextStatus(currentStatus) {
             const currentIndex = STATUS_OPTIONS.indexOf(currentStatus);
-            if (currentIndex > -1 && currentIndex < STATUS_OPTIONS.length - 1) {
-                return STATUS_OPTIONS[currentIndex + 1];
-            }
-            return null;
+            return (currentIndex > -1 && currentIndex < STATUS_OPTIONS.length - 1) ? STATUS_OPTIONS[currentIndex + 1] : null;
         }
 
         // --- CRUD para Clientes y Productos ---
-        function renderClientsList() {
-            const list = document.getElementById('clients-list');
-            list.innerHTML = allClients.map(c => `
+        const renderList = (containerId, data, nameField, phoneField) => {
+            const list = document.getElementById(containerId);
+            list.innerHTML = data.map(item => `
                 <div class="flex justify-between items-center p-2 bg-gray-50 rounded">
-                    <span>${c.name} (${c.phone || 'N/A'})</span>
-                    <button data-id="${c.id}" class="text-red-500 hover:text-red-700 delete-client-btn"><i class="fas fa-trash"></i></button>
-                </div>
-            `).join('');
-        }
+                    <span>${item[nameField]} (${phoneField ? (item[phoneField] || 'N/A') : `$${item.base_price}`})</span>
+                    <button data-id="${item.id}" data-type="${containerId.replace('-list','')}" class="text-red-500 hover:text-red-700 delete-item-btn"><i class="fas fa-trash"></i></button>
+                </div>`).join('');
+        };
+        const renderClientsList = () => renderList('clients-list', allClients, 'name', 'phone');
+        const renderProductsList = () => renderList('products-list', allProducts, 'name');
 
-        function renderProductsList() {
-            const list = document.getElementById('products-list');
-            list.innerHTML = allProducts.map(p => `
-                <div class="flex justify-between items-center p-2 bg-gray-50 rounded">
-                    <span>${p.name} ($${p.base_price})</span>
-                    <button data-id="${p.id}" class="text-red-500 hover:text-red-700 delete-product-btn"><i class="fas fa-trash"></i></button>
-                </div>
-            `).join('');
-        }
+        const setupCrudForm = (formId, collectionName, fields) => {
+            document.getElementById(formId).addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const data = fields.reduce((acc, field) => ({...acc, [field.name]: document.getElementById(field.id).value}), {});
+                await addDoc(getCollectionRef(collectionName), data);
+                e.target.reset();
+            });
+        };
+        
+        document.addEventListener('click', async (e) => {
+            const button = e.target.closest('.delete-item-btn');
+            if (button && confirm('¿Seguro que quieres eliminar este elemento?')) {
+                await deleteDoc(doc(getCollectionRef(button.dataset.type), button.dataset.id));
+            }
+        });
 
         // --- SEED DATA (Solo para la primera vez) ---
         async function seedDatabaseIfNeeded() {
-            const ordersRef = getCollectionRef('orders');
-            if(!ordersRef) return;
-            const ordersSnapshot = await getDocs(ordersRef);
-            if(ordersSnapshot.empty) {
+            if ((await getDocs(getCollectionRef('orders'))).empty) {
                 console.log("Base de datos vacía, insertando datos de ejemplo...");
-
-                const productsRef = getCollectionRef('products');
-                const clientsRef = getCollectionRef('clients');
-
-                const product1 = await addDoc(productsRef, { name: 'Taza 11oz blanca', base_price: 120, active: true });
-                const product2 = await addDoc(productsRef, { name: 'Playera M negra', base_price: 180, active: true });
-                const product3 = await addDoc(productsRef, { name: 'Termo 20oz', base_price: 250, active: true });
-                
-                const client1 = await addDoc(clientsRef, { name: 'Ana Pérez', phone: '9611234567', email: 'ana@email.com' });
-                const client2 = await addDoc(clientsRef, { name: 'Carlos Ruíz', phone: '9617654321', email: 'carlos@email.com' });
-
-                await addDoc(ordersRef, { folio: 'LAEZ-DEMO-001', client_id: client1.id, product_id: product1.id, quantity: 2, price_unit: 120, personalization_notes: 'Una con logo de Batman, otra con Superman.', image_urls: [], status: 'Recibido', created_at: Timestamp.now(), due_date: '2025-09-10' });
-                await addDoc(ordersRef, { folio: 'LAEZ-DEMO-002', client_id: client2.id, product_id: product2.id, quantity: 1, price_unit: 180, personalization_notes: 'Diseño de Star Wars en el pecho.', image_urls: [], status: 'En Diseño', created_at: Timestamp.now(), due_date: '2025-09-12' });
-                await addDoc(ordersRef, { folio: 'LAEZ-DEMO-003', client_id: client1.id, product_id: product3.id, quantity: 5, price_unit: 250, personalization_notes: 'Logo de la empresa "ACME Corp".', image_urls: [], status: 'En Producción', created_at: Timestamp.now(), due_date: '2025-09-15' });
-                console.log("Datos de ejemplo insertados.");
+                const p1 = await addDoc(getCollectionRef('products'), { name: 'Taza 11oz', base_price: 120 });
+                const c1 = await addDoc(getCollectionRef('clients'), { name: 'Ana Pérez', phone: '9611234567' });
+                await addDoc(getCollectionRef('orders'), { folio: 'LAEZ-DEMO-001', client_id: c1.id, product_id: p1.id, quantity: 2, price_unit: 120, subtotal: 240, personalization_notes: 'Logo de Batman.', status: 'Pendiente', created_at: Timestamp.now(), due_date: '2025-09-10' });
             }
         }
         
@@ -704,51 +562,20 @@
         document.getElementById('logout-btn').addEventListener('click', logout);
         document.getElementById('new-order-btn').addEventListener('click', () => openOrderModal());
         orderForm.addEventListener('submit', handleOrderFormSubmit);
-        document.getElementById('tienda-orders-list').addEventListener('click', handleOrderAction);
-        document.getElementById('taller-kanban-board').addEventListener('click', handleOrderAction);
-        document.getElementById('tienda-search').addEventListener('input', renderTiendaView);
-        document.getElementById('tienda-filter-status').addEventListener('change', renderTiendaView);
+        ['tienda-orders-list', 'taller-kanban-board'].forEach(id => document.getElementById(id).addEventListener('click', handleOrderAction));
+        ['tienda-search', 'tienda-filter-status'].forEach(id => document.getElementById(id).addEventListener('input', renderTiendaView));
+        ['quantity', 'price-unit'].forEach(id => document.getElementById(id).addEventListener('input', updateSubtotal));
         
         document.getElementById('manage-clients-btn').addEventListener('click', () => document.getElementById('clients-modal').showModal());
         document.getElementById('manage-products-btn').addEventListener('click', () => document.getElementById('products-modal').showModal());
 
-        document.getElementById('client-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const name = document.getElementById('client-name').value;
-            const phone = document.getElementById('client-phone').value;
-            if (name && phone) {
-                await addDoc(getCollectionRef('clients'), { name, phone });
-                e.target.reset();
-            }
-        });
-
-         document.getElementById('product-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const name = document.getElementById('product-name').value;
-            const price = parseFloat(document.getElementById('product-price').value);
-            if (name && price) {
-                await addDoc(getCollectionRef('products'), { name, base_price: price, active: true });
-                e.target.reset();
-            }
-        });
-
-        document.getElementById('clients-list').addEventListener('click', async (e) => {
-             const button = e.target.closest('.delete-client-btn');
-             if (button) {
-                 const id = button.dataset.id;
-                 if(confirm('¿Seguro que quieres eliminar este cliente?')) {
-                    await deleteDoc(doc(getCollectionRef('clients'), id));
-                 }
-             }
-        });
-        document.getElementById('products-list').addEventListener('click', async (e) => {
-             const button = e.target.closest('.delete-product-btn');
-             if (button) {
-                 const id = button.dataset.id;
-                 if(confirm('¿Seguro que quieres eliminar este producto?')) {
-                    await deleteDoc(doc(getCollectionRef('products'), id));
-                 }
-             }
+        setupCrudForm('client-form', 'clients', [{id: 'client-name', name: 'name'}, {id: 'client-phone', name: 'phone'}]);
+        setupCrudForm('product-form', 'products', [{id: 'product-name', name: 'name'}, {id: 'product-price', name: 'base_price'}]);
+        
+        document.getElementById('product-id').addEventListener('change', (e) => {
+            const product = allProducts.find(p => p.id === e.target.value);
+            if (product) document.getElementById('price-unit').value = product.base_price;
+            updateSubtotal();
         });
 
         // --- INICIO ---
@@ -757,4 +584,5 @@
     </script>
 </body>
 </html>
+
 
